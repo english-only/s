@@ -10,6 +10,23 @@
 <script src="/s/viewer.js" type="text/javascript"></script>
 </head>
 <body>
+<script>
+/* Virtual-route dispatcher.
+   GitHub Pages serves this 404.html for every unknown path. Legacy dynamic
+   routes (/s/v/, /s/d/, /s/em/, /s/fz/, ...) rely on loadshell() in
+   /s/viewer.js to render the viewer / download / embed shells — upstream's
+   production 404 page calls it the same way. If the path matches a known
+   virtual route, loadshell() replaces the document; otherwise the designed
+   404 below remains visible. */
+(function () {
+  var m = window.location.pathname.match(/^\/s\/(v|d|em|em_standalone|fz|frenzy|download|admin_scripts|app|cmdtool|cli|pkey|upload)\//);
+  if (m && typeof loadshell === "function") {
+    document.documentElement.style.visibility = "hidden";
+    loadshell();
+    return;
+  }
+})();
+</script>
 <div class="homepage" id="homepage">
   <div id="skel-layers-wrapper">
     <div id="header-wrapper">
